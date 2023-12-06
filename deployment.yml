@@ -11,6 +11,15 @@ spec:
       app: appjava
   template:
     metadata:
+     name: lucaseveron-tp6billin-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: lucaseveron-tp6billin
+  minReplicas: 3
+  maxReplicas: 5
+  targetCPUUtilizationPercentage: 50
       labels:
         app: appjava
     spec:
@@ -33,19 +42,8 @@ spec:
         - name: logs
           emptyDir: {}
           
----       
-apiVersion: autoscaling/v1
-kind: HorizontalPodAutoscaler
-metadata:
-  name: lucaseveron-tp6billin-hpa
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: lucaseveron-tp6billin
-  minReplicas: 3
-  maxReplicas: 5
-  targetCPUUtilizationPercentage: 50
+
+ 
     
       
 
