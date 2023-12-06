@@ -33,7 +33,6 @@ spec:
         - name: logs
           emptyDir: {}
           
-          # Configuración personalizada de rollback
   rollbackConfig:
     revisionHistoryLimit: 5  # Número de revisiones a mantener
     revisionLimit: 2        # Número de revisiones a mantener después de un rollback
