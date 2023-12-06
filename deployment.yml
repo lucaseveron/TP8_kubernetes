@@ -33,12 +33,8 @@ spec:
       - name: data-volume
         emptyDir: {}
 
-      secrets:
-      - name: my-secret
-        secret:
-          secretName: tp6billingapp-secret
-
 ---
+
 apiVersion: v1
 kind: Service
 metadata:
@@ -53,6 +49,7 @@ spec:
   type: NodePort
 
 ---
+
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
@@ -71,5 +68,6 @@ spec:
       target:
         type: Utilization
         averageUtilization: 50
+
 
        
