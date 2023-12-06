@@ -33,6 +33,7 @@ spec:
         - name: logs
           emptyDir: {}
           
+---       
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
