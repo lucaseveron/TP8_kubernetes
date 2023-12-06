@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: appjava
-          image: lucaseveron/tp6billingapp:v4
+          image: lucaseveron/tp6billingapp:v1
           resources:
             requests:
               memory: "64Mi"
