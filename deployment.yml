@@ -6,7 +6,9 @@ spec:
   selector:
     matchLabels:
       app: tp6billingapp
-  replicas: 1 # indica al controlador que ejecute 1 pods
+  replicas: 3 # indica al controlador que ejecute 3 pods
+   strategy:
+    type: Recreate  # Especifica la estrategia de recreación para el rollback
   template:
     metadata:
       labels:
@@ -17,5 +19,56 @@ spec:
         image: lucaseveron/tp6billingapp:v1
         ports:
         - containerPort: 80
-      
+         resources:
+          limits:
+            memory: "256Mi"   # Límite máximo de memoria
+            cpu: "200m"       # Límite máximo de uso de CPU
+          requests:
+            memory: "128Mi"   # Cantidad inicial de memoria solicitada
+            cpu: "100m"       # Cantidad inicial de uso de CPU solicitada
+        volumeMounts:
+        - name: data-volume
+          mountPath: /app/data
+      volumes:
+      - name: data-volume
+        emptyDir: {}
 
+      # Puedes agregar la sección 'secrets' directamente al nivel del 'spec'
+      # o puedes referenciar un secreto existente.
+      secrets:
+      - name: my-secret
+        secret:
+          secretName: tp6billingapp-secret
+          apiVersion: v1
+kind: Service
+metadata:
+  name: tp6billingapp-service
+spec:
+  selector:
+    app: tp6billingapp
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: NodePort
+  ---
+
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: tp6billingapp-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: tp6billingapp-deployment
+  minReplicas: 3
+  maxReplicas: 5
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 50
+       
