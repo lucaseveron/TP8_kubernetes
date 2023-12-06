@@ -33,10 +33,6 @@ spec:
         - name: logs
           emptyDir: {}
           
-  rollbackConfig:
-    revisionHistoryLimit: 5  # Número de revisiones a mantener
-    revisionLimit: 2        # Número de revisiones a mantener después de un rollback
-
 apiVersion: autoscaling/v1
 kind: HorizontalPodAutoscaler
 metadata:
