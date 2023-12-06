@@ -17,12 +17,12 @@ spec:
     apiVersion: apps/v1
     kind: Deployment
     name: lucaseveron-tp6billin
-  minReplicas: 3
-  maxReplicas: 5
-  targetCPUUtilizationPercentage: 50
-      labels:
-        app: appjava
-    spec:
+    minReplicas: 3
+    maxReplicas: 5
+    targetCPUUtilizationPercentage: 50
+    labels:
+    app: appjava
+  spec:
       containers:
         - name: appjava
           image: lucaseveron/tp6billingapp:v1
