@@ -1,49 +1,21 @@
-apiVersion: apps/v1
+apiVersion: apps/v1 # Usa apps/v1beta2 para versiones anteriores a 1.9.0
 kind: Deployment
 metadata:
-  name: lucaseveron-tp6billin
-  labels:
-    app: appjava
+  name: tp6billingapp-deployment
 spec:
-  replicas: 3
   selector:
     matchLabels:
-      app: appjava
+      app: tp6billingapp
+  replicas: 1 # indica al controlador que ejecute 2 pods
   template:
     metadata:
-     name: lucaseveron-tp6billin-hpa
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: lucaseveron-tp6billin
-    minReplicas: 3
-    maxReplicas: 5
-    targetCPUUtilizationPercentage: 50
-    labels:
-    app: appjava
-  spec:
+      labels:
+        app: tp6billingapp
+    spec:
       containers:
-        - name: appjava
-          image: lucaseveron/tp6billingapp:v1
-          resources:
-            requests:
-              memory: "64Mi"
-              cpu: "250m"
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
-          ports:
-            - containerPort: 7080
-          volumeMounts:
-            - name: logs
-              mountPath: /var/logs
-      volumes:
-        - name: logs
-          emptyDir: {}
-          
-
- 
-    
+      - name: tp6billingapp
+        image: lucaseveron/tp6billingapp:v1
+        ports:
+        - containerPort: 80
       
 
